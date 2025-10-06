@@ -17,6 +17,7 @@ class ProjectResource extends JsonResource
             'user_id'     => $this->user_id,
             'status'      => $this->status,
             'tasks_count' => $this->tasks_count,
+            'completed_percentage' => $this->getCompletionPercentageAttribute(),
             'created_at'  => $this->created_at?->toDateTimeString(),
             'updated_at'  => $this->updated_at?->toDateTimeString(),
         ];
