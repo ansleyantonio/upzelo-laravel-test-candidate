@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class ProjectApiTest extends TestCase
 {
-    //use RefreshDatabase;
+    use RefreshDatabase;
 
     public function test_can_create_project(): void
     {
@@ -124,6 +124,27 @@ class ProjectApiTest extends TestCase
         $response = $this->deleteJson("api/projects/{$project['id']}");
 
         $response->assertNoContent();
+    }
+
+    public function test_can_limit_requests()
+    {
+        $user = User::factory()->create();
+
+        for ($i = 0; $i < 3; $i++) {
+            $response = $this->postJson('/api/projects', [
+                'name' => "Project $i",
+                'description' => 'Testing',
+                'user_id' =>$user->id
+            ]);
+            $response->assertStatus(201);
+        }
+
+        $response = $this->postJson('/api/projects', [
+            'name' => 'Project X',
+            'description' => 'Testing'
+        ]);
+
+         $response->assertStatus(429);
     }
 
     // Add more test stubs for candidates to implement (OPTIONAL):

@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::apiResource('projects', ProjectController::class);
 // Route::apiResource('tasks', TaskController::class);
 
-Route::apiResource('projects', ProjectController::class);
+Route::apiResource('projects', ProjectController::class)
+                    ->middleware('throttle:3,1');
 
 Route::apiResource('tasks', TaskController::class);
